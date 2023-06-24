@@ -1,14 +1,18 @@
-import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, Param, Post, Put, Res, UseGuards } from '@nestjs/common';
 import { RequestService } from './request.service';
+import { Response } from 'express';
 import { Req } from 'src/dto/req.dto';
 import { Update } from 'src/dto/update.dto';
+import { AuthGuard } from 'src/validator/validator.guard';
 
 @Controller('requests')
 export class RequestController {
+    
     constructor(private reqService: RequestService){}
 
 
     @Get()
+    @UseGuards(AuthGuard)
     getRequests(){
         return this.reqService.getReqs()
     }
@@ -19,7 +23,11 @@ export class RequestController {
     }
 
     @Put(':id')
-    updateRequest(@Param("id") id: number, @Body() body: Update){
+    @UseGuards(AuthGuard)
+    updateRequest(@Res() res: Response,@Param("id") id: number, @Body() body: Update){
+        if (!body.comment){
+            // throw new HttpException("")
+        }
         return this.reqService.updateReq(id, body)
     }
 
