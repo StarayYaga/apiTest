@@ -1,7 +1,7 @@
 import { Model, Table, Column, DataType } from "sequelize-typescript";
 
 @Table({
-    tableName:"Requests"
+    tableName:"requests"
 })
 export class Request extends Model<Request>{
     
@@ -23,9 +23,9 @@ export class Request extends Model<Request>{
     @Column({type: DataType.STRING})
     comment: string
 
-    @Column({type: DataType.STRING})
+    @Column({type: DataType.DATE})
     created_at: string
 
-    @Column({type: DataType.STRING})
+    @Column({type: DataType.DATE})
     updated_at: string
 }

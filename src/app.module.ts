@@ -20,7 +20,12 @@ import { Request } from './request/request.model';
       password: process.env.dbPassword,
       database: process.env.dbName,
       autoLoadModels:true,
-      models:[Request]
+      models:[Request],
+      define: {
+        timestamps: false,
+        updatedAt: false,
+        createdAt: false
+       },
     })
   ],
   controllers: [],
