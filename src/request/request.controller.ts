@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpException, Param, Post, Put, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, HttpStatus, Param, Post, Put, Res, UseGuards } from '@nestjs/common';
 import { RequestService } from './request.service';
 import { Response } from 'express';
 import { Req } from 'src/dto/req.dto';
@@ -24,9 +24,9 @@ export class RequestController {
 
     @Put(':id')
     @UseGuards(AuthGuard)
-    updateRequest(@Res() res: Response,@Param("id") id: number, @Body() body: Update){
+    updateRequest(@Param("id") id: number, @Body() body: Update){
         if (!body.comment){
-            // throw new HttpException("")
+            throw new HttpException({reason:"1"}, HttpStatus.BAD_REQUEST)
         }
         return this.reqService.updateReq(id, body)
     }

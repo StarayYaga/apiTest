@@ -3,10 +3,8 @@ import { RequestController } from './request.controller';
 import { RequestService } from './request.service';
 import { Request } from './request.model';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { ValidatorModule } from 'src/validator/validator.module';
-import { AuthGuard } from 'src/validator/validator.guard';
-import { ValidatorService } from 'src/validator/validator.service';
 import { JwtModule } from '@nestjs/jwt';
+import { MailModule } from 'src/mail/mail.module';
 
 @Module({
   controllers: [RequestController],
@@ -14,7 +12,7 @@ import { JwtModule } from '@nestjs/jwt';
   imports: [
     SequelizeModule.forFeature([Request]),
     JwtModule,
-    
+    MailModule
   ]
 })
 export class RequestModule {}

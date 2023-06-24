@@ -1,73 +1,93 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# API по управлению заявками
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Это апи - тестовое задание в одной компании. Нужно с помощью апи принимать заявки от пользователей. Ответственное лицо должно обрабатывать эти заявки. При этом оставлять заявки могут все.  
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## EndPointы
 
-## Description
-
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Installation
-
-```bash
-$ npm install
 ```
-
-## Running the app
-
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+Post .../requests/
 ```
+Post запрос /resquests/ - создание заявки. 
 
-## Test
+Пример тела запроса
 
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
 ```
+{
+    "name": "ivan",
+    "email": "example@gmail.com",
+    "message": "Текст заявки"
+}
+```
+---
+```
+Put .../requests/{id}
+```
+Put запрос /resquests/{id} - ответ ответственным лицом на заявку. Где {id} - id заявки. При этом доступ имеет только ответственное лицо. 
 
-## Support
+Пример тела запроса
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+```
+{
+    "comment": "Текст ответа отв. лица.",
+}
+```
+---
+```
+Get .../requests/
+```
+Get запрос /resquests/ - получение всех заявок. При этом доступ имеет только ответственное лицо. 
 
-## Stay in touch
+## Отвественные лица
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+По скольку не все endpointы должны быть доступны кому угодно, были добавленны авторизация и регистрация.
 
-## License
+Авторизация
+```
+Post .../validator/login
 
-Nest is [MIT licensed](LICENSE).
+{
+  "email": "example@gmail.com",
+  "password": "password"
+}
+```
+Ответом сервера является token, с помощью которого производится доступ к заявкам.
+
+
+Регистрация
+```
+Post .../validator/registration
+
+{
+  "email": "example@gmail.com",
+  "password": "password"
+}
+```
+Ответом сервера является token, с помощью которого производится доступ к заявкам.
+
+## Технологии
+
+1) TypeScrypt - основной язык программирования
+2) Nest JS - основной фреймворк, на котором реализована работа с сетью
+3) JWT - работа с токенами
+4) Bcrypt - шифрование пароля
+5) Sequelize - ORM для работы с базой данных
+6) postgres - СУБД
+7) mailer - фреймворк для отправки email сообщений
+
+
+## Настройка и запуск
+
+В .env файле нужно заполнить переменные окружения.
+```
+dbPort - порт базы данных
+dbHost - хост бд
+dbUser - пользователь бд
+dbPassword - пароль пользователя бд
+dbName - название бд
+serverPort - порт сервера
+mailHost - хост для отправки email
+mailUser - логин для отправки emailов
+mailPassword - пароль
+mailFrom - от кого будут отправлять сообщения
+secretKeyJWT - секретная фраза для токенов
+```

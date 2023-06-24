@@ -4,11 +4,10 @@ import { ConfigModule } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { Request } from './request/request.model';
 import { MailerModule } from '@nestjs-modules/mailer';
-import { RolesModule } from './roles/roles.module';
-import { MailModule } from './mail/mail.module';
 import { ValidatorModule } from './validator/validator.module';
 import { Validator} from './validator/validator.model';
-import { AuthGuard } from './validator/validator.guard';
+import { MailModule } from './mail/mail.module';
+
 
 
 @Module({
@@ -16,10 +15,10 @@ import { AuthGuard } from './validator/validator.guard';
     RequestModule,
     MailerModule.forRoot({
       transport: {
-        host: 'smtp.sendgrid.net',
+        host: process.env.mailHost,
         auth: {
-          user: 'apikey',
-          pass: 'SG.xxxxxxxxxxxxxxxxxxxxxxxxxx-yyyyyyyyy',
+          user: process.env.mailUser,
+          pass: process.env.mailPassword,
         },
       }
     }),
@@ -41,9 +40,8 @@ import { AuthGuard } from './validator/validator.guard';
         createdAt: false
        },
     }),
-    RolesModule,
-    MailModule,
-    ValidatorModule
+    ValidatorModule,
+    MailModule
   ],
   controllers: [],
   providers: [],
