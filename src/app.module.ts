@@ -12,6 +12,9 @@ import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      envFilePath:"/home/yaga/code/api/.env"
+    }),
     RequestModule,
     MailerModule.forRoot({
       transport: {
@@ -21,9 +24,6 @@ import { MailModule } from './mail/mail.module';
           pass: process.env.mailPassword,
         },
       }
-    }),
-    ConfigModule.forRoot({
-      envFilePath:"/home/yaga/code/api/.env"
     }),
     SequelizeModule.forRoot({
       dialect: "postgres",
