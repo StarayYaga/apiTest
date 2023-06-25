@@ -9,7 +9,6 @@ import { Validator} from './validator/validator.model';
 import { MailModule } from './mail/mail.module';
 
 
-
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -19,12 +18,14 @@ import { MailModule } from './mail/mail.module';
     MailerModule.forRoot({
       transport: {
         host: process.env.mailHost,
+        port: Number(process.env.mailPort),
         auth: {
           user: process.env.mailUser,
-          pass: process.env.mailPassword,
+          pass: process.env.mailPassword
         },
       }
     }),
+    
     SequelizeModule.forRoot({
       dialect: "postgres",
       host: process.env.dbHost,
