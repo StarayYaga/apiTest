@@ -26,7 +26,7 @@ export class RequestService {
             comment: dto.comment,
             updated_at: dto.updated_at
         })
-        // this.mail.sendMail(req.email, dto.comment)
+        this.mail.sendMail(req.email, dto.comment)
         return req
     }
 }
